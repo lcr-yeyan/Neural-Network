@@ -4,8 +4,8 @@ from activatefunction import sign
 
 class Perceptron:  # 暂未完成
     def __init__(self, X, y, learning_rate=0.01, n_iters=1000):
-        self.X = X
-        self.y = y
+        self.X = X  # 训练样本
+        self.y = y  # 训练标签
         self.lr = learning_rate  # 学习率
         self.n_iters = n_iters  # 迭代次数
         self.weights = 0  # 权重

@@ -2,7 +2,7 @@ import numpy as np
 from activatefunction import sign
 
 
-class Perceptron:
+class Perceptron:  # 暂未完成
     def __init__(self, X, y, learning_rate=0.01, n_iters=1000):
         self.X = X
         self.y = y

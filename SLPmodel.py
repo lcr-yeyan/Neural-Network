@@ -2,7 +2,7 @@ import numpy as np
 from activatefunction import sign
 
 
-class Perceptron:   # 基础感知机模型
+class Perceptron:   # 基础单层感知机模型
     def __init__(self, x, y, learning_rate=0.1, n_iters=500):
         self.x = x  # 训练样本
         self.y = y  # 训练标签
@@ -55,11 +55,15 @@ class SGDPerceptron:   # 基础感知机模型，SGD优化
 
         for i in range(self.n_iters):
             for batch in self.batches():
+                gradient_w = np.zeros(n_features)
+                gradient_b = 0
                 for x_b, y_b in batch:
                     y_output = sign(np.dot(x_b, self.weights) + self.bias)  # 计算初始偏差
                     if y_output != y_b:  # 特征判定
-                        self.weights += y_b * x_b * self.lr
-                        self.bias += y_b * self.lr
+                        gradient_w += y_b * x_b
+                        gradient_b += y_b
+                self.weights += gradient_w * self.lr / len(batch)
+                self.bias += gradient_b * self.lr / len(batch)
 
     def predict(self, x):  # 模型的执行函数
         y_predict = sign(np.dot(x, self.weights) + self.bias)
@@ -88,11 +92,15 @@ class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口�
 
         for i in range(self.n_iters):
             for batch in self.batches():
+                gradient_w = np.zeros(n_features)
+                gradient_b = 0
                 for x_b, y_b in batch:
                     y_output = sign(np.dot(x_b, self.weights) + self.bias)  # 计算初始偏差
                     if y_output != y_b:  # 特征判定
-                        self.weights += y_b * x_b * self.lr
-                        self.bias += y_b * self.lr
+                        gradient_w += y_b * x_b
+                        gradient_b += y_b
+                self.weights += gradient_w * self.lr / len(batch)
+                self.bias += gradient_b * self.lr / len(batch)
 
     def predict(self, x):  # 模型的执行函数
         y_predict = sign(np.dot(x, self.weights) + self.bias)
@@ -121,11 +129,15 @@ class KernelPerceptron:   # 基础感知机模型，基于SGD优化，使用核�
 
         for i in range(self.n_iters):
             for batch in self.batches():
+                gradient_w = np.zeros(n_features)
+                gradient_b = 0
                 for x_b, y_b in batch:
                     y_output = sign(np.dot(x_b, self.weights) + self.bias)  # 计算初始偏差
                     if y_output != y_b:  # 特征判定
-                        self.weights += y_b * x_b * self.lr
-                        self.bias += y_b * self.lr
+                        gradient_w += y_b * x_b
+                        gradient_b += y_b
+                self.weights += gradient_w * self.lr / len(batch)
+                self.bias += gradient_b * self.lr / len(batch)
 
     def predict(self, x):  # 模型的执行函数
         y_predict = sign(np.dot(x, self.weights) + self.bias)
@@ -154,11 +166,15 @@ class VotePerceptron:   # 基础感知机模型，基于SGD优化，使用表决
 
         for i in range(self.n_iters):
             for batch in self.batches():
+                gradient_w = np.zeros(n_features)
+                gradient_b = 0
                 for x_b, y_b in batch:
                     y_output = sign(np.dot(x_b, self.weights) + self.bias)  # 计算初始偏差
                     if y_output != y_b:  # 特征判定
-                        self.weights += y_b * x_b * self.lr
-                        self.bias += y_b * self.lr
+                        gradient_w += y_b * x_b
+                        gradient_b += y_b
+                self.weights += gradient_w * self.lr / len(batch)
+                self.bias += gradient_b * self.lr / len(batch)
 
     def predict(self, x):  # 模型的执行函数
         y_predict = sign(np.dot(x, self.weights) + self.bias)
@@ -187,11 +203,15 @@ class BeePerceptron:   # 基础感知机模型，基于SGD优化，使用蜂群�
 
         for i in range(self.n_iters):
             for batch in self.batches():
+                gradient_w = np.zeros(n_features)
+                gradient_b = 0
                 for x_b, y_b in batch:
                     y_output = sign(np.dot(x_b, self.weights) + self.bias)  # 计算初始偏差
                     if y_output != y_b:  # 特征判定
-                        self.weights += y_b * x_b * self.lr
-                        self.bias += y_b * self.lr
+                        gradient_w += y_b * x_b
+                        gradient_b += y_b
+                self.weights += gradient_w * self.lr / len(batch)
+                self.bias += gradient_b * self.lr / len(batch)
 
     def predict(self, x):  # 模型的执行函数
         y_predict = sign(np.dot(x, self.weights) + self.bias)

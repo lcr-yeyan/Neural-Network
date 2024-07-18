@@ -16,7 +16,6 @@ def sign(x):
         return -1
 
 
-
 def tanh(x):
     return (math.exp(x) - math.exp(-x)) / (math.exp(x) + math.exp(-x))
 

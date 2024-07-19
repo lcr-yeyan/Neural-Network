@@ -1,4 +1,5 @@
 import numpy as np
+from usefulfunction import normalize_vector
 
 
 # y为实际输出，d为期望输出，alpha为学习速率
@@ -27,7 +28,7 @@ def correlation_rule(alpha, x, d):  # 有监督学习
     return delta
 
 
-def random_rule():  # 水平暂不足
+def random_rule():  # 随机型神经网络学习规则
     return
 
 
@@ -41,6 +42,26 @@ def out_rule(alpha, y, w):  # 外星学习规则
     return delta
 
 
-def winner_takes_all_rule():  # 水平暂不足
-    return
+def winner_takes_all(X, num_neurons, learning_rate, num_iterations):  # from Wenxinyiyan
+    weights = np.random.rand(num_neurons, X.shape[1])
+    for _ in range(num_iterations):
+        for input_vector in X:
+            # 归一化输入向量
+            input_vector_normalized = normalize_vector(input_vector)
+
+            # 计算每个神经元的激活值（这里使用点积作为激活函数）
+            activations = np.dot(weights, input_vector_normalized)
+
+            # 找到激活值最高的神经元（胜者）
+            winner_index = np.argmax(activations)
+
+            # 网络输出：可以是胜者神经元的权重，或者是胜者神经元的激活值
+            # 这里我们选择胜者神经元的权重作为输出（也可以根据实际情况选择）
+            output = weights[winner_index]
+
+            # 更新胜者神经元的权重
+            weights[winner_index] += learning_rate * (input_vector_normalized - weights[winner_index])
+            # 输出当前胜者的信息
+            print(f"Winner index: {winner_index}, Activation: {activations[winner_index]}, Output: {output}")
+    return weights
 

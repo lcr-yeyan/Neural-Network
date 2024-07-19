@@ -31,33 +31,20 @@ class MPNeuron:
         return 1 if sum_weighted > self.threshold else 0  # 激活函数为阶跃函数
 
 
-class DelayMPNeuron:  # 并未实现功能
-    def __init__(self, weights=None, delay_length=1, threshold=0):
-        if weights is None:
-            weights = []
-        self.weights = weights
+class DelayMPNeuron:  # 功能实现，但不够强大
+    def __init__(self, threshold=0):
         self.threshold = threshold
-        self.delay_length = delay_length  # 延迟长度，即记忆的时间步长数
-        self.memory = [0.0] * delay_length  # 存储最近几个时间步长的加权输入和
-        self.current_index = 0  # 当前时间步长在记忆中的索引
-        self.in_connection = []
+        self.in_connection = {}
 
-    def add_connection(self, weight, in_neuron):  # 添加某个神经元的输入连接
-        self.in_connection.append((weight, in_neuron))
+    def add_connection(self, weight, delay, in_neuron):  # 添加某个神经元的输入连接
+        self.in_connection[in_neuron] = (weight, delay)
 
-    def activate(self):
-        # 更新记忆
-        self.memory[self.current_index] = sum(weight * source.activate() for weight, source in self.in_connection)
-        self.current_index = (self.current_index + 1) % self.delay_length  # 循环更新索引
-        end_index = self.current_index
-        if end_index < self.delay_length:
-            # 如果当前索引小于延迟长度，窗口跨越了数组的开始
-            start_index = 0
-        else:
-            # 否则，窗口完全在数组内
-            start_index = end_index - self.delay_length
-        weights_input = sum(self.memory[i] for i in range(start_index, end_index))
-        return 1 if weights_input > self.threshold else 0  # 转移函数为阶跃函数
+    def activate(self, inputs_value, t):  # inputs_value为当前结点输入神经元的值字典，键为神经元，值为对应的输入, t为时间量
+        sum_weighted = 0
+        for inputs_neuron, (weight, delay) in self.in_connection.items():
+            sum_weighted += inputs_value[inputs_neuron] * weight * (t - delay)
+        return 1 if sum_weighted > self.threshold else 0
+
 
 
 class RefractoryMPNeuron:  # 并未实现功能

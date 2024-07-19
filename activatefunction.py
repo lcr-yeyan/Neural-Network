@@ -30,3 +30,7 @@ def elu(alpha, x):
 
 def lrelu(alpha, x):
     return x if x > 0 else alpha * x
+
+
+def step(input, threshold):
+    return 1 if input > threshold else 0

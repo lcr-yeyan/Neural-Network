@@ -1,4 +1,5 @@
 import time
+from activatefunction import step
 
 
 class Neuron:
@@ -7,8 +8,8 @@ class Neuron:
         self.bias = bias
         self.act_fun = activation_function
 
-    def add_connection(self, weight, source_neuron):  # 添加某个神经元的输入连接
-        self.inputs.append((weight, source_neuron))
+    def add_connection(self, weight, in_neuron):  # 添加某个神经元的输入连接
+        self.inputs.append((weight, in_neuron))
 
     def activate(self):  # 激活函数
         sum_weighted = sum(weight * source.activate() for weight, source in self.inputs) + self.bias
@@ -28,7 +29,7 @@ class MPNeuron:
 
     def activate(self):
         sum_weighted = sum(weight * source.activate() for weight, source in self.in_connection)
-        return 1 if sum_weighted > self.threshold else 0  # 激活函数为阶跃函数
+        return step(sum_weighted, self.threshold)  # 激活函数为阶跃函数
 
 
 class DelayMPNeuron:  # 功能实现，但不够强大
@@ -44,7 +45,7 @@ class DelayMPNeuron:  # 功能实现，但不够强大
         for inputs_neuron, params in self.in_connection.items():
             weight, delay = params
             sum_weighted += inputs_value[inputs_neuron] * weight * (t - delay)
-        return 1 if sum_weighted > self.threshold else 0
+        return step(sum_weighted, self.threshold)  # 激活函数为阶跃函数
 
 
 class RefractoryMPNeuron:  # 并未实现功能

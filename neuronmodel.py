@@ -41,10 +41,10 @@ class DelayMPNeuron:  # 功能实现，但不够强大
 
     def activate(self, inputs_value, t):  # inputs_value为当前结点输入神经元的值字典，键为神经元，值为对应的输入, t为时间量
         sum_weighted = 0
-        for inputs_neuron, (weight, delay) in self.in_connection.items():
+        for inputs_neuron, params in self.in_connection.items():
+            weight, delay = params
             sum_weighted += inputs_value[inputs_neuron] * weight * (t - delay)
         return 1 if sum_weighted > self.threshold else 0
-
 
 
 class RefractoryMPNeuron:  # 并未实现功能

@@ -74,4 +74,3 @@ class RefractoryMPNeuron:  # 并未实现功能
         print("Neuron fired")
         self.current_potential = 0
         self.last_fired = time.time()
-

@@ -79,6 +79,9 @@ class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口�
         self.weights = None  # 权重
         self.bias = 0  # 偏置
         self.batch_size = batch_size
+        self.best_weights = None
+        self.best_bias = 0
+        self.best_acc = 0
 
     def batches(self):
         data = list(zip(self.x, self.y))
@@ -89,6 +92,7 @@ class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口�
     def train(self):  # 模型的训练函数
         n_samples, n_features = self.x.shape
         self.weights = np.zeros(n_features)
+        self.best_weights = np.zeros(n_features)
 
         for i in range(self.n_iters):
             for batch in self.batches():
@@ -101,10 +105,15 @@ class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口�
                         gradient_b += y_b
                 self.weights += gradient_w * self.lr / len(batch)
                 self.bias += gradient_b * self.lr / len(batch)
+            y_predict = sign(np.dot(self.x, self.weights) + self.bias)
+            acc = np.mean(y_predict == self.y)
+            if acc > self.best_acc:
+                self.best_weights = self.weights.copy()
+                self.best_bias = self.bias
+                self.best_acc = acc
 
     def predict(self, x):  # 模型的执行函数
-        y_predict = sign(np.dot(x, self.weights) + self.bias)
-        return y_predict
+        return sign(np.dot(x, self.best_weights) + self.best_bias)
 
 
 class KernelPerceptron:   # 基础感知机模型，基于SGD优化，使用核感知机算法(暂未完成)

@@ -5,6 +5,10 @@ def sigmoid(k, x):
     return 1 / (1 + math.exp(-x * k))
 
 
+def d_sigmoid(k, x):
+    return sigmoid(k, x) * (1 - sigmoid(k, x))
+
+
 def relu(x):
     return 0 if x <= 0 else x
 
@@ -18,6 +22,10 @@ def sign(x):
 
 def tanh(x):
     return (math.exp(x) - math.exp(-x)) / (math.exp(x) + math.exp(-x))
+
+
+def d_tanh(x):
+    return 1 - tanh(x) ** 2
 
 
 def softplus(x):

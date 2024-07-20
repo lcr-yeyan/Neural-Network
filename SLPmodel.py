@@ -70,7 +70,7 @@ class SGDPerceptron:   # 基础感知机模型，SGD优化
         return y_predict
 
 
-class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口袋算法(暂未完成)
+class PocketPerceptron:   # 基础感知机模型，基于SGD优化，使用口袋算法
     def __init__(self, x, y, learning_rate=0.1, n_iters=500, batch_size=20):
         self.x = x  # 训练样本
         self.y = y  # 训练标签

@@ -211,3 +211,8 @@ class Net64x48(nn.Module):
         res = conv3_out.view(conv3_out.size(0), -1)
         out = self.dense(res)
         return out
+
+
+class AlexNet(nn.Module):
+    def __init__(self):
+        super().__init__()

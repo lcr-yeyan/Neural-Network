@@ -2,14 +2,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class BasicCNN(nn.Module):
-    def __init__(self, n_feature):
+class BasicCNN(nn.Module):  # 引入dropout防止过拟合方法
+    def __init__(self, n_feature, dropout_rate=0.5):
         super(BasicCNN, self).__init__()
         self.conv1 = nn.Conv2d(3, 16, 5)
         self.conv2 = nn.Conv2d(16, 32, 5)
         self.fc1 = nn.Linear(5 * 5 * 32, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, n_feature)
+        self.dropout1 = nn.Dropout(p=dropout_rate)
+        self.dropout2 = nn.Dropout(p=dropout_rate)
 
     def forward(self, x):
         # 假设输入图像尺寸为32*32*3
@@ -25,7 +27,9 @@ class BasicCNN(nn.Module):
         x = x.view(-1, 5 * 5 * 32)  # 将tensor展平
 
         x = F.relu(self.fc1(x))
+        x = self.dropout1(x)
         x = F.relu(self.fc2(x))
+        x = self.dropout2(x)
         x = self.fc3(x)
 
         return x

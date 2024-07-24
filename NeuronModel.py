@@ -1,5 +1,6 @@
 import time
 from activatefunction import step
+import numpy as np
 
 
 class Neuron:
@@ -14,6 +15,43 @@ class Neuron:
     def activate(self):  # 激活函数
         sum_weighted = sum(weight * source.activate() for weight, source in self.inputs) + self.bias
         return self.act_fun(sum_weighted)
+
+
+class Neuron:
+    def __init__(self, weights, bias, activation='sigmoid'):
+        self.weights = weights
+        self.bias = bias
+        self.activation = activation
+        self.activation_functions = {
+            'sigmoid': self.sigmoid,
+            'relu': self.relu
+        }
+        if activation not in self.activation_functions:
+            raise ValueError(f"Unsupported activation function: {activation}")
+
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+    def relu(self, x):
+        return np.maximum(0, x)
+
+    def forward(self, inputs):
+        weighted_sum = np.dot(self.weights, inputs) + self.bias
+        return self.activation_functions[self.activation](weighted_sum)
+
+
+class NeuronLayer:
+    def __init__(self, num_neurons, input_size, activation_function='sigmoid'):
+        self.neurons = []
+        for _ in range(num_neurons):
+            # 随机初始化权重和偏置（这里简单使用随机小数，实际应用中可能需要更复杂的初始化策略）
+            weights = np.random.rand(input_size)
+            bias = np.random.rand(1)[0]
+            self.neurons.append(Neuron(weights, bias, activation_function))
+
+    def forward(self, inputs):
+        outputs = [neuron.forward(inputs) for neuron in self.neurons]
+        return outputs
 
 
 class MPNeuron:

@@ -25,10 +25,14 @@ class ResNet1(nn.Module):
             nn.MaxPool2d(2)
         )  # 32x14x14
         self.conv2 = nn.Sequential(
-            nn.Conv2d(64, 64, 3, 1, 1)  # 64x14x14
+            nn.Conv2d(64, 64, 3, 1, 1),  # 64x14x14
+            nn.ReLU(),
+            nn.MaxPool2d(2)
         )
         self.conv3 = nn.Sequential(
-            nn.Conv2d(64, 64, 3, 1, 1)  # 64x7x7
+            nn.Conv2d(64, 64, 3, 1, 1),  # 64x7x7
+            nn.ReLU(),
+            nn.MaxPool2d(2)
         )
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool2d(2)
@@ -41,9 +45,7 @@ class ResNet1(nn.Module):
     def forward(self, x):
         conv1_out = self.conv1(x)
         conv2_out = self.conv2(conv1_out) + conv1_out
-        conv2_out = self.pool(self.relu(conv2_out))
         conv3_out = self.conv3(conv2_out) + conv2_out
-        conv3_out = self.pool(self.relu(conv3_out))
         res = conv3_out.view(conv3_out.size(0), -1)  # batch x (64*3*3)
         features = self.dense[0](res)
         features_relu = self.dense[1](features)

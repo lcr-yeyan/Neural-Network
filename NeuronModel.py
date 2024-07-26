@@ -17,7 +17,7 @@ class Neuron:
         return self.act_fun(sum_weighted)
 
 
-class Neuron:
+class Neuron_nn:
     def __init__(self, weights, bias, activation='sigmoid'):
         self.weights = weights
         self.bias = bias
@@ -47,7 +47,7 @@ class NeuronLayer:
             # 随机初始化权重和偏置（这里简单使用随机小数，实际应用中可能需要更复杂的初始化策略）
             weights = np.random.rand(input_size)
             bias = np.random.rand(1)[0]
-            self.neurons.append(Neuron(weights, bias, activation_function))
+            self.neurons.append(Neuron_nn(weights, bias, activation_function))
 
     def forward(self, inputs):
         outputs = [neuron.forward(inputs) for neuron in self.neurons]
